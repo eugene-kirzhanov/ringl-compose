@@ -11,28 +11,37 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        named("commonMain") {
+        val commonMain by getting
+        val jvmMain by creating
+        val androidMain by getting
+        val desktopMain by getting
+
+        commonMain.dependencies {
+            api(compose.runtime)
+            api(compose.foundation)
+            api(compose.material)
+        }
+
+        jvmMain.apply {
+            dependsOn(commonMain)
             dependencies {
-                api(compose.runtime)
-                api(compose.foundation)
-                api(compose.material)
-                // implementation(compose.preview)
+                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
             }
         }
-        named("androidMain") {
+
+        androidMain.apply {
+            dependsOn(jvmMain)
             dependencies {
                 api("androidx.appcompat:appcompat:1.4.0-alpha03")
                 api("androidx.core:core-ktx:1.7.0-alpha01")
-                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
             }
-            kotlin.srcDirs("src/jvmMain/kotlin")
         }
-        named("desktopMain") {
+
+        desktopMain.apply {
+            dependsOn(jvmMain)
             dependencies {
                 api(compose.desktop.common)
-                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
             }
-            kotlin.srcDirs("src/jvmMain/kotlin")
         }
     }
 }

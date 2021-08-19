@@ -32,6 +32,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ringl.common.core.util.format
 import com.ringl.common.features.registration.util.CommonPhoneNumberUtils
 import com.ringl.common.resources.strings
 import com.ringl.common.theme.buttonShape
@@ -127,8 +128,13 @@ internal fun RegistrationForm(
         Spacer(Modifier.height(32.dp))
         Text(
             text = buildAnnotatedString {
-                // todo сделать ссылки кликабельными
-                append(strings().registration.agreementLinks)
+
+                val text = strings().registration.agreementText.format(
+                    strings().registration.agreementSubTextPrivacyPolicy,
+                    strings().registration.agreementSubTextTerms
+                )
+                append(text)
+
             },
             fontFamily = robotoFontFamily,
             fontWeight = FontWeight.Normal,

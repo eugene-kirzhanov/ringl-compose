@@ -11,6 +11,12 @@ internal object EnStrings : IStrings(
         phoneNumberHint = "Phone number",
         companyHint = "Company",
         requestCode = "Request Code",
-        agreementLinks = "By continuing, you are indicating that agree to the Privacy policy and Terms"
+        agreementText = "By continuing, you are indicating that agree to the %s\u00a0and\u00a0%s",
+        agreementSubTextPrivacyPolicy = "Privacy\u00a0Policy",
+        agreementSubTextTerms = "Terms\u00a0and\u00a0Conditions"
+    ),
+    about = About(
+        privacyPolicyUrl = "https://ringl.im/app-privacy/",
+        termsUrl = "https://ringl.im/app-terms/"
     )
 )

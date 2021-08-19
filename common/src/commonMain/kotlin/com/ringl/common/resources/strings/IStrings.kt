@@ -2,7 +2,8 @@ package com.ringl.common.resources.strings
 
 abstract class IStrings(
     val common: Common,
-    val registration: Registration
+    val registration: Registration,
+    val about: About
 ) {
 
     class Common(
@@ -16,7 +17,14 @@ abstract class IStrings(
         val phoneNumberHint: String,
         val companyHint: String,
         val requestCode: String,
-        val agreementLinks: String
+        val agreementText: String,
+        val agreementSubTextPrivacyPolicy: String,
+        val agreementSubTextTerms: String
+    )
+
+    class About(
+        val privacyPolicyUrl: String,
+        val termsUrl: String
     )
 
 }

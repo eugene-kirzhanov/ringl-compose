@@ -2,7 +2,7 @@ package com.ringl.common.features.registration.domain
 
 import com.ringl.common.core.models.Address
 
-interface CompanyValidator {
+internal interface CompanyValidator {
 
     fun validateCompanyName(company: String): Boolean
 

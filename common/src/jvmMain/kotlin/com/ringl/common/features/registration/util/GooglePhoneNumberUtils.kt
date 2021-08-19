@@ -1,12 +1,13 @@
 package com.ringl.common.features.registration.util
 
-import androidx.compose.ui.text.intl.Locale
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 
+internal actual fun getPhoneNumberUtils(region: String): PhoneNumberUtils = GooglePhoneNumberUtils(region)
+
 internal class GooglePhoneNumberUtils(
-    private val locale: Locale
+    private val region: String
 ) : PhoneNumberUtils {
 
     override fun formatNumber(countryCode: String, phoneNumber: String): String {
@@ -33,7 +34,7 @@ internal class GooglePhoneNumberUtils(
         val phoneNumberDigits = phoneNumber.filter { it.isDigit() }
         val fullNumber = "+$countryCodeDigits$phoneNumberDigits"
         val phoneUtil = PhoneNumberUtil.getInstance()
-        return phoneUtil.parse(fullNumber, locale.region)
+        return phoneUtil.parse(fullNumber, region)
     }
 
 }

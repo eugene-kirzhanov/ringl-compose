@@ -3,7 +3,7 @@ package com.ringl.common.features.registration.domain
 import androidx.compose.ui.text.intl.Locale
 import com.ringl.common.features.registration.util.CommonPhoneNumberUtils
 
-interface PhoneNumberValidator {
+internal interface PhoneNumberValidator {
 
     fun validatePhoneNumber(countryCode: String, phoneNumber: String): Boolean
 

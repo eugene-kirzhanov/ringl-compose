@@ -1,6 +1,6 @@
 package com.ringl.common.features.registration.domain
 
-interface RegistrationFormValidator {
+internal interface RegistrationFormValidator {
     fun validate(countryCode: String, phoneNumber: String, company: String): Boolean
 }
 

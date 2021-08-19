@@ -22,7 +22,7 @@ fun main() = application {
     val state = rememberWindowState(width = 640.dp, height = 700.dp)
     Window(
         icon = painterResource("app_icon.png"),
-        title = strings().common.appName,
+        title = "Hello", // todo strings().common.appName,
         state = state,
         resizable = true,
         onCloseRequest = ::exitApplication
