@@ -1,6 +1,7 @@
 package com.ringl.common.features.registration.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +19,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -30,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ringl.common.core.util.format
@@ -126,26 +134,55 @@ internal fun RegistrationForm(
             Text(strings().registration.requestCode.uppercase())
         }
         Spacer(Modifier.height(32.dp))
-        Text(
-            text = buildAnnotatedString {
-
-                val text = strings().registration.agreementText.format(
-                    strings().registration.agreementSubTextPrivacyPolicy,
-                    strings().registration.agreementSubTextTerms
-                )
-                append(text)
-
-            },
-            fontFamily = robotoFontFamily,
-            fontWeight = FontWeight.Normal,
-            fontSize = 12.sp,
-            color = Color.DarkGray,
-            textAlign = TextAlign.Center
-        )
+        AgreementText()
     }
-
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
         onDispose { }
     }
+}
+
+@Composable
+private fun AgreementText() {
+    val agreementText = buildAnnotatedString {
+        val privacyPolicyText = strings().registration.agreementSubTextPrivacyPolicy
+        val termsText = strings().registration.agreementSubTextTerms
+        val text = strings().registration.agreementText.format(privacyPolicyText, termsText)
+        append(text)
+
+        val urlSpanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)
+
+        val privacyPolicyPos = text.indexOf(privacyPolicyText)
+        val privacyPolicyUrl = strings().about.privacyPolicyUrl
+        addStyle(urlSpanStyle, privacyPolicyPos, privacyPolicyPos + privacyPolicyText.length)
+        addStringAnnotation("URL", annotation = privacyPolicyUrl, privacyPolicyPos, privacyPolicyPos + privacyPolicyText.length)
+
+        val termsPos = text.indexOf(termsText)
+        val termsUrl = strings().about.termsUrl
+        addStyle(urlSpanStyle, termsPos, termsPos + termsText.length)
+        addStringAnnotation("URL", annotation = termsUrl, termsPos, termsPos + termsText.length)
+    }
+    val uriHandler = LocalUriHandler.current
+    val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
+    Text(
+        text = agreementText,
+        fontFamily = robotoFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        color = Color.DarkGray,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures { offsetPosition ->
+                layoutResult.value?.let {
+                    val position = it.getOffsetForPosition(offsetPosition)
+                    agreementText.getStringAnnotations(position, position).firstOrNull()?.let { result ->
+                        if (result.tag == "URL") {
+                            uriHandler.openUri(result.item)
+                        }
+                    }
+                }
+            }
+        },
+        onTextLayout = { layoutResult.value = it }
+    )
 }

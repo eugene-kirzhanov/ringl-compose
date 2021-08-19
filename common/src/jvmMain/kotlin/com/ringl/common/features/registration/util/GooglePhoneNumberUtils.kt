@@ -4,8 +4,6 @@ import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 
-internal actual fun getPhoneNumberUtils(region: String): PhoneNumberUtils = GooglePhoneNumberUtils(region)
-
 internal class GooglePhoneNumberUtils(
     private val region: String
 ) : PhoneNumberUtils {
