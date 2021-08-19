@@ -1,6 +1,7 @@
 package com.ringl
 
 import androidx.compose.desktop.DesktopMaterialTheme
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.res.painterResource
@@ -13,9 +14,10 @@ import com.ringl.common.resources.Strings
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private val MIN_WIDTH = 360.dp
-private val MIN_HEIGHT = 640.dp
+//private val MIN_WIDTH = 360.dp
+//private val MIN_HEIGHT = 640.dp
 
+@ExperimentalMaterialApi
 fun main() = application {
     val state = rememberWindowState(width = 640.dp, height = 700.dp)
     Window(
@@ -31,6 +33,7 @@ fun main() = application {
         LaunchedEffect(state) {
             snapshotFlow { state.size }
                 .onEach {
+                    // todo не дать уменьшить размер окна меньше чем надо
 //                    val width = max(MIN_WIDTH.value, size.width.value).dp
 //                    val height = max(MIN_HEIGHT.value, size.height.value).dp
 //                    if (width != size.width || height != size.height) {

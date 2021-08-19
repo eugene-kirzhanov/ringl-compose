@@ -16,19 +16,23 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
-                implementation(compose.preview)
+                // implementation(compose.preview)
             }
         }
         named("androidMain") {
             dependencies {
                 api("androidx.appcompat:appcompat:1.4.0-alpha03")
                 api("androidx.core:core-ktx:1.7.0-alpha01")
+                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
             }
+            kotlin.srcDirs("src/jvmMain/kotlin")
         }
         named("desktopMain") {
             dependencies {
                 api(compose.desktop.common)
+                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
             }
+            kotlin.srcDirs("src/jvmMain/kotlin")
         }
     }
 }
