@@ -10,7 +10,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.ringl.common.App
-import com.ringl.common.resources.Strings
+import com.ringl.common.resources.strings
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -22,7 +22,7 @@ fun main() = application {
     val state = rememberWindowState(width = 640.dp, height = 700.dp)
     Window(
         icon = painterResource("app_icon.png"),
-        title = Strings.Common.appName,
+        title = strings().common.appName,
         state = state,
         resizable = true,
         onCloseRequest = ::exitApplication

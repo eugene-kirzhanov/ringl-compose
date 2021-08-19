@@ -27,6 +27,7 @@ import com.ringl.common.features.registration.domain.CommonRegistrationFormValid
 import com.ringl.common.features.registration.ui.RegistrationForm
 import com.ringl.common.features.registration.ui.RegistrationHeader
 import com.ringl.common.features.registration.ui.SelectCountryCodeScreen
+import com.ringl.common.features.registration.util.CommonLocaleUtils
 import kotlinx.coroutines.launch
 
 // todo провайдить валидаторы через DI
@@ -39,8 +40,10 @@ private val registrationFormValidator = CommonRegistrationFormValidator(phoneNum
 internal fun RegistrationScreen() {
     val coroutineScope = rememberCoroutineScope()
 
-    // todo определить текущую страну по локали
-    var countryCode by rememberSaveable { mutableStateOf("+375") }
+    val localeUtils = CommonLocaleUtils()
+    val initialCountryCode = localeUtils.getPhoneNumberCountryCode(Locale.current)
+
+    var countryCode by rememberSaveable { mutableStateOf(initialCountryCode) }
     var phoneNumber by rememberSaveable { mutableStateOf("") }
     var company by rememberSaveable { mutableStateOf("") }
 

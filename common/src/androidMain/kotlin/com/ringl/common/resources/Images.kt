@@ -6,7 +6,4 @@ import androidx.compose.ui.res.painterResource
 import com.ringl.common.R
 
 @Composable
-actual fun imageLogo(): Painter = painterResource(R.drawable.ringl_logo)
-
-@Composable
-actual fun iconArrowDropDown(): Painter = painterResource(R.drawable.ic_arrow_drop_down)
+internal actual fun imageLogo(): Painter = painterResource(R.drawable.ringl_logo)

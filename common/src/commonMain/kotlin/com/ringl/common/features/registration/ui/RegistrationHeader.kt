@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ringl.common.resources.Strings
 import com.ringl.common.resources.imageLogo
+import com.ringl.common.resources.strings
 import com.ringl.common.theme.robotoFontFamily
 
 @Composable
@@ -25,7 +25,7 @@ internal fun RegistrationHeader() {
     )
     Spacer(Modifier.height(24.dp))
     Text(
-        text = Strings.Registration.title,
+        text = strings().registration.title,
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
@@ -35,7 +35,7 @@ internal fun RegistrationHeader() {
     )
     Spacer(Modifier.height(8.dp))
     Text(
-        text = Strings.Registration.subtitle,
+        text = strings().registration.subtitle,
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,

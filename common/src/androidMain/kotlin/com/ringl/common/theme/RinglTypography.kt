@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.ringl.common.R
 
-actual val robotoFontFamily: FontFamily = FontFamily(
+internal actual val robotoFontFamily: FontFamily = FontFamily(
     Font(
         resId = R.font.roboto_regular,
         weight = FontWeight.Normal,

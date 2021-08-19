@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
@@ -28,9 +32,9 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ringl.common.features.registration.util.CommonPhoneNumberFormatter
-import com.ringl.common.resources.Strings
-import com.ringl.common.resources.iconArrowDropDown
+import com.ringl.common.features.registration.util.CommonPhoneNumberUtils
+import com.ringl.common.resources.strings
+import com.ringl.common.theme.buttonShape
 import com.ringl.common.theme.inputShape
 import com.ringl.common.theme.robotoFontFamily
 
@@ -45,7 +49,7 @@ internal fun RegistrationForm(
     onCompanyChanged: (company: String) -> Unit,
     onCodeRequested: () -> Unit
 ) {
-    val phoneNumberFormatter = CommonPhoneNumberFormatter(Locale.current)
+    val phoneNumberUtils = CommonPhoneNumberUtils(Locale.current)
     val focusRequester = FocusRequester()
     Column(
         modifier = Modifier.widthIn(max = 400.dp)
@@ -57,13 +61,18 @@ internal fun RegistrationForm(
                 value = countryCode,
                 onValueChange = { },
                 singleLine = true,
-                label = { Text(Strings.Registration.countryCodeHint) },
+                label = { Text(strings().registration.countryCodeHint) },
                 enabled = false,
                 modifier = Modifier
-                    .width(120.dp)
+                    .width(110.dp)
                     .clickable(onClick = onSelectCountryCode),
-                trailingIcon = { iconArrowDropDown() },
-                shape = inputShape()
+                trailingIcon = {
+                    Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                },
+                shape = inputShape(),
+                colors = TextFieldDefaults.textFieldColors(
+                    disabledTextColor = Color.Black
+                )
             )
             Spacer(modifier = Modifier.width(8.dp))
             TextField(
@@ -74,14 +83,14 @@ internal fun RegistrationForm(
                     }
                     onPhoneNumberChanged(filtered)
                 },
-                label = { Text(Strings.Registration.phoneNumberHint) },
+                label = { Text(strings().registration.phoneNumberHint) },
                 singleLine = true,
                 modifier = Modifier
                     .weight(1f)
                     .focusRequester(focusRequester)
                     .onFocusChanged {
                         if (!it.hasFocus) {
-                            val formatted = phoneNumberFormatter.formatPhoneNumber(countryCode, phoneNumber)
+                            val formatted = phoneNumberUtils.formatNumber(countryCode, phoneNumber)
                             onPhoneNumberChanged(formatted)
                         }
                     },
@@ -96,7 +105,7 @@ internal fun RegistrationForm(
         TextField(
             value = company,
             onValueChange = onCompanyChanged,
-            label = { Text(Strings.Registration.companyHint) },
+            label = { Text(strings().registration.companyHint) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             shape = inputShape(),
@@ -110,15 +119,16 @@ internal fun RegistrationForm(
         Button(
             onClick = onCodeRequested,
             modifier = Modifier.fillMaxWidth(),
-            enabled = isCodeRequestAllowed
+            enabled = isCodeRequestAllowed,
+            shape = buttonShape()
         ) {
-            Text(Strings.Registration.requestCode.uppercase())
+            Text(strings().registration.requestCode.uppercase())
         }
         Spacer(Modifier.height(32.dp))
         Text(
             text = buildAnnotatedString {
                 // todo сделать ссылки кликабельными
-                append(Strings.Registration.agreementLinks)
+                append(strings().registration.agreementLinks)
             },
             fontFamily = robotoFontFamily,
             fontWeight = FontWeight.Normal,
