@@ -1,8 +1,9 @@
 import org.jetbrains.compose.compose
 
 plugins {
-    id("com.android.library")
     kotlin("multiplatform")
+    id("kotlinx-serialization")
+    id("com.android.library")
     id("org.jetbrains.compose")
 }
 
@@ -13,35 +14,38 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
+                implementation(Deps.Kotlinx.coroutinesCore)
+                implementation(Deps.Kotlinx.serializationCore)
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
+                api(Deps.Koin.core)
+                api(Deps.Log.kermit)
             }
         }
         named("androidMain") {
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.0-alpha03")
-                api("androidx.core:core-ktx:1.7.0-alpha01")
-                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
+                api(Deps.AndroidX.appCompat)
+                api(Deps.AndroidX.coreKtx)
+                implementation(Deps.libPhoneNumber)
             }
-            kotlin.srcDirs("src/jvmMain/kotlin")
         }
         named("desktopMain") {
             dependencies {
                 api(compose.desktop.common)
-                implementation("com.googlecode.libphonenumber:libphonenumber:8.12.30")
+                implementation(Deps.Log.slf4j)
+                implementation(Deps.libPhoneNumber)
             }
-            kotlin.srcDirs("src/jvmMain/kotlin")
         }
     }
 }
 
 android {
-    compileSdk = 30
+    compileSdk = Versions.androidCompileSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 30
+        minSdk = Versions.androidMinSdk
+        targetSdk = Versions.androidTargetSdk
     }
 
     compileOptions {

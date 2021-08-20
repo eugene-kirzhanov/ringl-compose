@@ -3,17 +3,11 @@ plugins {
 }
 
 buildscript {
-    val composeVersion = "1.0.0-alpha4-build315"
-
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.5.21"))
         classpath("com.android.tools.build:gradle:7.0.1")
-        classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
+        classpath(Deps.Gradle.kotlin)
+        classpath(Deps.Gradle.kotlinSerialization)
+        classpath(Deps.Gradle.compose)
     }
 }
 
@@ -25,8 +19,8 @@ allprojects {
     }
 
     afterEvaluate {
-        project.extensions.findByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()?.let { kmpExt ->
-            kmpExt.sourceSets.removeAll { it.name == "androidAndroidTestRelease" }
+        project.extensions.findByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()?.apply {
+            sourceSets.removeAll { it.name == "androidAndroidTestRelease" }
         }
     }
 

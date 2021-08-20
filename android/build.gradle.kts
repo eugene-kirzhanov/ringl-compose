@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = Versions.androidCompileSdk
 
     defaultConfig {
+        minSdk = Versions.androidMinSdk
+        targetSdk = Versions.androidTargetSdk
+
         applicationId = "com.ringl"
-        minSdk = 21
-        targetSdk = 30
         versionCode = 1
         versionName = "1.0"
     }
@@ -30,5 +31,12 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation("androidx.activity:activity-compose:1.3.1")
+
+    implementation(Deps.AndroidX.activityCompose)
+
+    with(Deps.Koin) {
+        implementation(core)
+        implementation(android)
+        implementation(compose)
+    }
 }

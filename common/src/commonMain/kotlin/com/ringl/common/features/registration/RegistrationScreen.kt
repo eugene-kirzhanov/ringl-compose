@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
+import com.ringl.common.core.log.logger
 import com.ringl.common.features.registration.domain.CommonCompanyValidator
 import com.ringl.common.features.registration.domain.CommonPhoneNumberValidator
 import com.ringl.common.features.registration.domain.CommonRegistrationFormValidator
@@ -84,6 +85,7 @@ internal fun RegistrationScreen() {
                 onPhoneNumberChanged = { phoneNumber = it },
                 onCompanyChanged = { company = it },
                 onCodeRequested = {
+                    logger.d { "Request SMS code: $$countryCode$phoneNumber@$company" }
                     // todo запросить код в смс
                 }
             )

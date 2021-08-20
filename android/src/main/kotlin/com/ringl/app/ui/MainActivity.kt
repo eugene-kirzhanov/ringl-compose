@@ -1,4 +1,4 @@
-package com.ringl
+package com.ringl.app.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
