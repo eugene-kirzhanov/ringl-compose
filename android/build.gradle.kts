@@ -33,6 +33,9 @@ dependencies {
     implementation(project(":common"))
 
     implementation(Deps.AndroidX.activityCompose)
+    implementation(Deps.AndroidX.splashScreen)
+
+    implementation(Deps.Android.material)
 
     implementation(Deps.Koin.core)
     implementation(Deps.Koin.android)

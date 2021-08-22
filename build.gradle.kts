@@ -5,9 +5,8 @@ plugins {
 buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.1")
-        classpath(Deps.Gradle.kotlin)
-        classpath(Deps.Gradle.kotlinSerialization)
-        classpath(Deps.Gradle.compose)
+        classpath(Deps.Kotlin.plugin)
+        classpath(Deps.Compose.plugin)
     }
 }
 

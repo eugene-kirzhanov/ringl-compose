@@ -1,7 +1,6 @@
 package com.ringl.app
 
 import android.app.Application
-import com.ringl.app.di.appModule
 import com.ringl.common.core.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,9 +13,6 @@ class RinglApp : Application(), KoinComponent {
         initKoin {
             androidLogger()
             androidContext(this@RinglApp)
-            modules(
-                appModule
-            )
         }
     }
 

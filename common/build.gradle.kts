@@ -2,7 +2,6 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("kotlinx-serialization")
     id("com.android.library")
     id("org.jetbrains.compose")
 }
@@ -14,13 +13,12 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
-                implementation(Deps.Kotlinx.coroutinesCore)
-                implementation(Deps.Kotlinx.serializationCore)
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
                 api(Deps.Koin.core)
                 api(Deps.Log.kermit)
+                implementation(Deps.Coroutines.core)
             }
         }
         named("androidMain") {

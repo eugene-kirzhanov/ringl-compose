@@ -5,7 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import com.ringl.common.App
+import com.ringl.common.compose.App
 
 class MainActivity : AppCompatActivity() {
 
