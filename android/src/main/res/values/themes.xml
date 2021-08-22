@@ -3,13 +3,18 @@
 
     <style name="AppThemeBase" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme" parent="@style/Theme.SplashScreen">
+    <style name="AppTheme" parent="@style/AppThemeBase" />
+
+    <style name="SplashAppTheme" parent="@style/Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@android:color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/splash_logo</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="postSplashScreenTheme">@style/AppThemeBase</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
     <dimen name="splashscreen_icon_size">72dp</dimen>

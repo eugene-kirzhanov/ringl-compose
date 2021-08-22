@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetDefaults
@@ -40,17 +39,15 @@ internal fun RegistrationScreen() {
         }
     }
 
-    val keyboardController = LocalSoftwareKeyboardController.current
-
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel = rememberComposeViewModel {
         RegistrationViewModel(koin.get(), koin.get())
     }
-
     val registrationData by viewModel.registrationData.collectAsState()
     val isDataValid by viewModel.isDataValid.collectAsState(false)
 
+    val keyboardController = LocalSoftwareKeyboardController.current
     val countryCodeQueryFocusRequester = FocusRequester()
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     ModalBottomSheetLayout(
@@ -71,7 +68,7 @@ internal fun RegistrationScreen() {
                 }
             )
         },
-        sheetShape = MaterialTheme.shapes.large.copy(topStart = CornerSize(16.dp), topEnd = CornerSize(16.dp)),
+        sheetShape = MaterialTheme.shapes.large,
         sheetElevation = ModalBottomSheetDefaults.Elevation,
         scrimColor = ModalBottomSheetDefaults.scrimColor
     ) {
