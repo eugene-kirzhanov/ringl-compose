@@ -33,7 +33,6 @@ kotlin {
         named("desktopMain") {
             dependencies {
                 api(compose.desktop.common)
-                implementation(Deps.Log.slf4j)
                 implementation(Deps.libPhoneNumber)
             }
         }

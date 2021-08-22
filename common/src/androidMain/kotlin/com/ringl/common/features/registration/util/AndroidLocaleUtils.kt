@@ -3,19 +3,16 @@ package com.ringl.common.features.registration.util
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.intl.Locale
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
-internal actual fun getLocaleUtils(): LocaleUtils = AndroidLocaleUtils()
+internal class AndroidLocaleUtils(
+    private val context: Context
+) : LocaleUtils {
 
-internal class AndroidLocaleUtils : LocaleUtils {
-
-    @Composable
     override fun getPhoneNumberCountryCode(locale: Locale): String {
         val countryCode = PhoneNumberUtil.getInstance()
-            .getCountryCodeForRegion(getCountryCode(LocalContext.current))
+            .getCountryCodeForRegion(getCountryCode(context))
         return "+$countryCode"
     }
 

@@ -1,4 +1,4 @@
-package com.ringl.common.core.di
+package com.ringl.common.core.di.modules
 
 import co.touchlab.kermit.LogcatLogger
 import co.touchlab.kermit.Logger

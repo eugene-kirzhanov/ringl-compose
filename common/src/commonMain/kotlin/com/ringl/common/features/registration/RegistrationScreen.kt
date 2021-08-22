@@ -12,50 +12,49 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import com.ringl.common.core.log.logger
-import com.ringl.common.features.registration.domain.CommonCompanyValidator
-import com.ringl.common.features.registration.domain.CommonPhoneNumberValidator
-import com.ringl.common.features.registration.domain.CommonRegistrationFormValidator
+import com.ringl.common.core.di.ext.getKoin
+import com.ringl.common.core.rememberComposeViewModel
+import com.ringl.common.features.registration.di.registrationModules
 import com.ringl.common.features.registration.ui.RegistrationForm
 import com.ringl.common.features.registration.ui.RegistrationHeader
 import com.ringl.common.features.registration.ui.SelectCountryCodeScreen
-import com.ringl.common.features.registration.util.CommonLocaleUtils
 import kotlinx.coroutines.launch
-
-// todo провайдить валидаторы через DI
-private val phoneNumberValidator = CommonPhoneNumberValidator(Locale.current)
-private val companyValidator = CommonCompanyValidator()
-private val registrationFormValidator = CommonRegistrationFormValidator(phoneNumberValidator, companyValidator)
 
 @ExperimentalMaterialApi
 @Composable
 internal fun RegistrationScreen() {
+    val koin = getKoin()
+    koin.loadModules(registrationModules)
+    DisposableEffect(Unit) {
+        onDispose {
+            koin.unloadModules(registrationModules)
+        }
+    }
+
     val coroutineScope = rememberCoroutineScope()
 
-    val localeUtils = CommonLocaleUtils()
-    val initialCountryCode = localeUtils.getPhoneNumberCountryCode(Locale.current)
+    val viewModel = rememberComposeViewModel {
+        RegistrationViewModel(koin.get(), koin.get())
+    }
 
-    var countryCode by rememberSaveable { mutableStateOf(initialCountryCode) }
-    var phoneNumber by rememberSaveable { mutableStateOf("") }
-    var company by rememberSaveable { mutableStateOf("") }
+    val registrationData by viewModel.registrationData.collectAsState()
+    val isDataValid by viewModel.isDataValid.collectAsState(false)
 
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
             SelectCountryCodeScreen(
-                selectedCountryCode = countryCode,
+                selectedCountryCode = registrationData.countryCode,
                 onCountryCodeSelected = { selectedCountryCode ->
-                    countryCode = selectedCountryCode
+                    viewModel.onCountryCodeSelected(selectedCountryCode)
                     coroutineScope.launch {
                         bottomSheetState.hide()
                     }
@@ -73,21 +72,16 @@ internal fun RegistrationScreen() {
             RegistrationHeader()
             Spacer(Modifier.height(32.dp))
             RegistrationForm(
-                countryCode = countryCode,
-                phoneNumber = phoneNumber,
-                company = company,
-                isCodeRequestAllowed = registrationFormValidator.validate(countryCode, phoneNumber, company),
+                registrationData = registrationData,
+                isCodeRequestAllowed = isDataValid,
                 onSelectCountryCode = {
                     coroutineScope.launch {
                         bottomSheetState.show()
                     }
                 },
-                onPhoneNumberChanged = { phoneNumber = it },
-                onCompanyChanged = { company = it },
-                onCodeRequested = {
-                    logger.d { "Request SMS code: $$countryCode$phoneNumber@$company" }
-                    // todo запросить код в смс
-                }
+                onPhoneNumberChanged = viewModel::onPhoneNumberChanged,
+                onCompanyChanged = viewModel::onCompanyChanged,
+                onCodeRequested = viewModel::requestSmsCode
             )
         }
     }

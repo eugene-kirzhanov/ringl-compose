@@ -40,8 +40,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ringl.common.core.di.ext.get
 import com.ringl.common.core.util.format
-import com.ringl.common.features.registration.util.CommonPhoneNumberUtils
+import com.ringl.common.features.registration.model.RegistrationData
+import com.ringl.common.features.registration.util.PhoneNumberUtils
 import com.ringl.common.resources.strings
 import com.ringl.common.theme.buttonShape
 import com.ringl.common.theme.inputShape
@@ -49,16 +51,16 @@ import com.ringl.common.theme.robotoFontFamily
 
 @Composable
 internal fun RegistrationForm(
-    countryCode: String,
-    phoneNumber: String,
-    company: String,
+    registrationData: RegistrationData,
     isCodeRequestAllowed: Boolean,
     onSelectCountryCode: () -> Unit,
     onPhoneNumberChanged: (phoneNumber: String) -> Unit,
     onCompanyChanged: (company: String) -> Unit,
     onCodeRequested: () -> Unit
 ) {
-    val phoneNumberUtils = CommonPhoneNumberUtils(Locale.current)
+    val phoneNumberUtils = get<PhoneNumberUtils>()
+    val formattedNumber = phoneNumberUtils.formatNumber(registrationData.countryCode, registrationData.phoneNumber, Locale.current)
+
     val focusRequester = FocusRequester()
     Column(
         modifier = Modifier.widthIn(max = 400.dp)
@@ -67,7 +69,7 @@ internal fun RegistrationForm(
             modifier = Modifier.fillMaxWidth()
         ) {
             TextField(
-                value = countryCode,
+                value = registrationData.countryCode,
                 onValueChange = { },
                 singleLine = true,
                 label = { Text(strings().registration.countryCodeHint) },
@@ -85,7 +87,7 @@ internal fun RegistrationForm(
             )
             Spacer(modifier = Modifier.width(8.dp))
             TextField(
-                value = phoneNumber,
+                value = registrationData.phoneNumber,
                 onValueChange = { input ->
                     val filtered = input.filter {
                         it.isDigit() || it == ' ' || it == '-' || it == '(' || it == ')'
@@ -99,8 +101,7 @@ internal fun RegistrationForm(
                     .focusRequester(focusRequester)
                     .onFocusChanged {
                         if (!it.hasFocus) {
-                            val formatted = phoneNumberUtils.formatNumber(countryCode, phoneNumber)
-                            onPhoneNumberChanged(formatted)
+                            onPhoneNumberChanged(formattedNumber)
                         }
                     },
                 shape = inputShape(),
@@ -112,7 +113,7 @@ internal fun RegistrationForm(
         }
         Spacer(Modifier.height(8.dp))
         TextField(
-            value = company,
+            value = registrationData.company,
             onValueChange = onCompanyChanged,
             label = { Text(strings().registration.companyHint) },
             singleLine = true,

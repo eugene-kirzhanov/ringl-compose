@@ -34,9 +34,6 @@ dependencies {
 
     implementation(Deps.AndroidX.activityCompose)
 
-    with(Deps.Koin) {
-        implementation(core)
-        implementation(android)
-        implementation(compose)
-    }
+    implementation(Deps.Koin.core)
+    implementation(Deps.Koin.android)
 }

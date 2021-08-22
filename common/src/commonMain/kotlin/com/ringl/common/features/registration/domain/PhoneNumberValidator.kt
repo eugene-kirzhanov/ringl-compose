@@ -1,20 +1,20 @@
 package com.ringl.common.features.registration.domain
 
 import androidx.compose.ui.text.intl.Locale
-import com.ringl.common.features.registration.util.CommonPhoneNumberUtils
+import com.ringl.common.features.registration.util.PhoneNumberUtils
 
 internal interface PhoneNumberValidator {
 
-    fun validatePhoneNumber(countryCode: String, phoneNumber: String): Boolean
+    fun validatePhoneNumber(countryCode: String, phoneNumber: String, locale: Locale): Boolean
 
 }
 
-internal class CommonPhoneNumberValidator(locale: Locale) : PhoneNumberValidator {
+internal class CommonPhoneNumberValidator(
+    private val phoneNumberUtils: PhoneNumberUtils
+) : PhoneNumberValidator {
 
-    private val phoneNumberUtils = CommonPhoneNumberUtils(locale)
-
-    override fun validatePhoneNumber(countryCode: String, phoneNumber: String): Boolean {
-        return phoneNumberUtils.isValidPhoneNumber(countryCode, phoneNumber)
+    override fun validatePhoneNumber(countryCode: String, phoneNumber: String, locale: Locale): Boolean {
+        return phoneNumberUtils.isValidPhoneNumber(countryCode, phoneNumber, locale)
     }
 
 }

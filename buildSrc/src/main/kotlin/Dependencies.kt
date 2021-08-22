@@ -10,12 +10,12 @@ object Deps {
     object Gradle {
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
         const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
-        const val compose = "org.jetbrains.compose:compose-gradle-plugin:1.0.0-alpha4-build315"
+        const val compose = "org.jetbrains.compose:compose-gradle-plugin:1.0.0-alpha4-build318"
     }
 
     object Kotlinx {
         const val serializationCore = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
-        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt"
+        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
     }
 
     object AndroidX {
@@ -28,11 +28,9 @@ object Deps {
         private const val version = "3.1.2"
         const val core = "io.insert-koin:koin-core:$version"
         const val android = "io.insert-koin:koin-android:$version"
-        const val compose = "io.insert-koin:koin-androidx-compose:$version"
     }
 
     object Log {
-        const val slf4j = "org.slf4j:slf4j-simple:1.7.32"
         const val kermit = "co.touchlab:kermit:0.1.9"
     }
 
