@@ -18,15 +18,17 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
@@ -49,6 +51,7 @@ import com.ringl.common.core.util.format
 import com.ringl.features.registration.core.model.RegistrationData
 import com.ringl.features.registration.core.util.PhoneNumberUtils
 
+@ExperimentalComposeUiApi
 @Composable
 internal fun RegistrationForm(
     registrationData: RegistrationData,
@@ -75,7 +78,7 @@ internal fun RegistrationForm(
                 label = { Text(strings().registration.countryCodeHint) },
                 enabled = false,
                 modifier = Modifier
-                    .width(110.dp)
+                    .width(126.dp)
                     .clickable(onClick = onSelectCountryCode),
                 trailingIcon = {
                     Icon(Icons.Default.ArrowDropDown, contentDescription = null)
@@ -137,9 +140,11 @@ internal fun RegistrationForm(
         Spacer(Modifier.height(32.dp))
         AgreementText()
     }
-    DisposableEffect(Unit) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    LaunchedEffect(registrationData.countryCode) {
         focusRequester.requestFocus()
-        onDispose { }
+        keyboardController?.show()
     }
 }
 

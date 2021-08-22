@@ -4,6 +4,7 @@ import androidx.compose.desktop.DesktopMaterialTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -19,6 +20,7 @@ import java.util.Locale
 //private val MIN_WIDTH = 360.dp
 //private val MIN_HEIGHT = 640.dp
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 fun main() {
     initKoin()
