@@ -1,9 +1,8 @@
-package com.ringl.features.registration.util
+package com.ringl.features.registration.core.util
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
-import com.ringl.features.registration.core.util.PhoneNumberUtils
 
 internal class GooglePhoneNumberUtils : PhoneNumberUtils {
 

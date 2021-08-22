@@ -1,7 +1,6 @@
-package com.ringl.features.registration.util
+package com.ringl.features.registration.core.util
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.ringl.features.registration.core.util.LocaleUtils
 import java.util.Locale
 
 internal class DesktopLocaleUtils : LocaleUtils {

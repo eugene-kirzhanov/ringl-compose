@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.ringl.common.compose.util.getKoin
 import com.ringl.common.compose.util.rememberComposeViewModel
 import com.ringl.features.registration.core.di.registrationModules
-import com.ringl.features.registration.core.domain.RegistrationViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi

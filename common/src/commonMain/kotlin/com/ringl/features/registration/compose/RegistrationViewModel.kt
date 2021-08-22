@@ -1,7 +1,8 @@
-package com.ringl.features.registration.core.domain
+package com.ringl.features.registration.compose
 
 import co.touchlab.kermit.Kermit
 import com.ringl.common.compose.util.ComposeViewModel
+import com.ringl.features.registration.core.domain.RegistrationInteractor
 import com.ringl.features.registration.core.model.RegistrationData
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
