@@ -4,7 +4,7 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.1")
+        classpath("com.android.tools.build:gradle:7.0.2")
         classpath(Deps.Kotlin.plugin)
         classpath(Deps.Compose.plugin)
     }

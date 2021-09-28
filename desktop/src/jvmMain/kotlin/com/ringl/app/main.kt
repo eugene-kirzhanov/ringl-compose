@@ -1,7 +1,7 @@
 package com.ringl.app
 
-import androidx.compose.desktop.DesktopMaterialTheme
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -15,7 +15,7 @@ import com.ringl.common.core.di.initKoin
 import com.ringl.common.core.resources.strings
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.util.Locale
+import java.util.*
 
 //private val MIN_WIDTH = 360.dp
 //private val MIN_HEIGHT = 640.dp
@@ -33,7 +33,7 @@ fun main() {
             resizable = true,
             onCloseRequest = ::exitApplication
         ) {
-            DesktopMaterialTheme {
+            MaterialTheme(MaterialTheme.colors, MaterialTheme.typography, MaterialTheme.shapes) {
                 App()
             }
             LaunchedEffect(state) {
